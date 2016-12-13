@@ -59,6 +59,8 @@ Function New-CacheManager {
 						$Internal.loadDatabaseFile();
 						$internal.ready = $true;
 						$this.enabled = $true;
+						$Internal.log("A new instance of cache manager was sucessfully configured", "PROGRESS");
+						$Internal.log("	The cache directory is: $($this.cacheDirectory)", "PROGRESS");
 					}
 				
 				
