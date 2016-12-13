@@ -76,6 +76,11 @@ Function New-CacheManager {
 							return $RemoteName;
 						}
 						
+						if(![IO.File]::Exists($RemoteName)){
+							$Internal.log("Remote $RemoteName dont exists.");
+							return $RemoteName;
+						}
+						
 						$FileURI = New-Object Uri($RemoteName);
 						if(!$FileURI.IsUnc){
 							return $RemoteName;
