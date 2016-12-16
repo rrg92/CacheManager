@@ -12,6 +12,12 @@ $MyCache = New-CacheManager;
 #Specify a cache manager directory
 $MyCache.cacheDirectory = 'C:\MyCache'
 
+#Initialize the cache manager!
+#At this point cache manager will prepare the cache directory and your internal database.
+#If the cache directory was previously used to create a cache, it will load the database.
+#This allows cache manager persist all cache information between powershell sessions using same directory.
+$MyCache.init()
+
 #Start caching your remote files!
 $PathToMyFile = $MyCache.getFile('\\MyRemoteServer\MyDir\MyFile.txt');
 
