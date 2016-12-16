@@ -1,7 +1,7 @@
 # CacheManager
 Provide a caching mechanism to files in any powershell script.
 
-# How use
+# How to use
 ```powershell
 #Imports the module!
 import-module CacheManager;
