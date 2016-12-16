@@ -38,6 +38,7 @@ while($execute){
 
   #Every 5 minutes, update file cache just calling getFile...
   if( ((Get-Date)-$LastCacheCheck).totalMinutes -ge 5 -or !$LastCacheCheck){
+          $MyFiles = @();
           $MyFilesOriginal | %{
               $MyFiles += $MyCache.getFile($_);
           }
