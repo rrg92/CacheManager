@@ -46,9 +46,9 @@ while($execute){
           $LastCacheCheck = (Get-Date);
   }
 
-  #For each file, gets the cached version!
+  #Execute each file!
   $MyFiles | %{
-       $CurrentFile = $MyCache.getFile($_.FullName);
+       $CurrentFile = $_;
        $results = Invoke-SqlCmd -ServerInstance MyServer -Database mydatabase -InputFile $CurrentFile;
     }
     
