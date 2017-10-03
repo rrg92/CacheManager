@@ -29,26 +29,23 @@ $PathToMyFile = $MyCache.getFile('\\MyRemoteServer\MyDir\MyFile.txt');
 #for example, imagine that you have a script that loads a lot of sql files from network to execute against a sql server instance!
 #Imagine that you execute it in a loop...
 $MyFilesOriginal = gci '\\MyRemote\MyFiles\*.sql' | %{$_.FullName};
-$MyFiles  = @();
 
 $execute = $true;
-$LastCacheCheck = $null;
 
 while($execute){
 
-  #Every 5 minutes, update file cache just calling getFile...
-  if( ((Get-Date)-$LastCacheCheck).totalMinutes -ge 5 -or !$LastCacheCheck){
-          $MyFilesOriginal | %{
-              $MyFiles += $MyCache.getFile($_);
-          }
-          
-          $LastCacheCheck = (Get-Date);
-  }
 
   #For each file, gets the cached version!
-  $MyFiles | %{
-       $CurrentFile = $MyCache.getFile($_.FullName);
-       $results = Invoke-SqlCmd -ServerInstance MyServer -Database mydatabase -InputFile $CurrentFile;
+  $MyFilesOriginal | %{
+       #The getFile method will return a file path.
+       #If file is remote, the CacheManager will atempt caches it into cache directory and return the path to the file.
+       #The same path passed in parameter is returned in following circustantes:
+       #    - The file nevers cached, and remote is not acessible.
+       #    - The file already cached, but local copy was deleted and remote cannot acessed for cache again.
+       #The seconds parameter in method specify frequency the cache manager will check the file.
+       #    This helps avoid contact remote every time you call method. The method will calculate next time for each file based on this value and last time it #    checks.
+       $CurrentFile = $MyCache.getFile($_.FullName, 300);
+       $results     = Invoke-SqlCmd -ServerInstance MyServer -Database mydatabase -InputFile $CurrentFile;
     }
     
     #Waits for a time...
