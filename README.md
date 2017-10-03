@@ -34,6 +34,7 @@ $execute = $true;
 
 while($execute){
 
+<<<<<<< HEAD
 
   #For each file, gets the cached version!
   $MyFilesOriginal | %{
